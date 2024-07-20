@@ -17,6 +17,7 @@ a.addEventListener("click", function (e) {
         showNotes();
     }
 })
+//displays notes from local storage
 function showNotes() {
     let notes = localStorage.getItem("notes");
     let html = "";
@@ -36,11 +37,25 @@ function showNotes() {
             html += `<div class="card my-2 mx-2" style="width: 14rem;">
                 <div class="card-body">
                     <p class="card-text">${element}</p>
-                    <a class="btn btn-primary">Delete Note</a>
+                    <button id="${index}"class="btn btn-primary" onclick="deleteNote(this.id)">Delete Note</button>
                 </div>
             </div>`;
         })
         let notesContainer = document.getElementById("notes");
         notesContainer.innerHTML = html;
     }
+}
+//deletes from local storage
+function deleteNote(index)
+{
+    console.log("Deleting index",index);
+    let notes=localStorage.getItem("notes");
+    let notesObj=JSON.parse(notes);
+    notesObj.splice(index,1);
+    localStorage.setItem("notes",JSON.stringify(notesObj));
+    if(notesObj.length==0)
+    {
+        localStorage.removeItem("notes");
+    }
+    showNotes();
 }
